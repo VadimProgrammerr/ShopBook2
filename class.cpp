@@ -282,6 +282,63 @@ float ExpenseRecord::displaySummary()
 }
 //--------------------------------------------------------
 
+//методы класса ExpenseInputScreen//
+// конструктор
+ExpenseInputScreen::ExpenseInputScreen(ExpenseRecord* per) : ptrExpenseRecord(per)
+{
+
+}
+//------------------------------------------------------
+
+void ExpenseInputScreen::setExpense()
+{
+    int month, day;
+    string category, payee;
+    float amount;
+
+    cout << "Введите месяц (1-12): ";
+    cin >> month;
+    cin.ignore(80, '\n');
+    cout << "Введите день (1-31): ";
+    cin >> day;
+    cin.ignore(80, '\n');
+    cout << "Введите категорию расходов: ";
+    getaLine(category);
+    cout << "Введите получателя: ";
+    getaLine(payee);
+    cout << "Введите сумму: ";
+    cin >> amount;
+    cin.ignore(80, '\n');
+    // создаем новый расход
+    Expense* ptrExpense = new Expense(month, day, category, payee, amount);
+    // вставляем расход в список всех расходов
+    ptrExpenseRecord->insertExp(ptrExpense);
+}
+//---------------------------------------------------------
+
+//методы класса AnnualReport//
+//Конструктор
+AnnualReport::AnnualReport(SellRecord* pSR, ExpenseRecord* pER) : ptrRR(pSR), ptrER(pER) {
+
+}
+//---------------------------------------------------------
+
+
+void AnnualReport::display()
+ {
+        cout << "Годовой отчет\n--------------\n" << endl;
+        cout << "Доходы\n" << endl;
+        cout << "\tДоход от продаж: ";
+        Sells = ptrRR->getSumOfSells();
+        cout << Sells << endl;
+        cout << "Расходы\n" << endl;
+        expenses = ptrER->displaySummary();
+        cout << "Расходы всего: ";
+        cout << expenses << endl;  	 	// вычисляем прибыльность
+        cout << "\nБаланс: " << (Sells - expenses) << endl;
+}
+//---------------------------------------------------------
+
 
 //методы класса userInterface//
 UserInterface::UserInterface()
