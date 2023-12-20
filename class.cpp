@@ -202,6 +202,24 @@ float SellRecord::getSumOfSells()  // сумма всех платежей
 }
 //---------------------------------------------------------
 
+//методы класса SellInputScreen//
+void SellInputScreen::setSell()
+{
+    cout << "Название: ";
+    cin >> SoldBook;
+    cout << "Введите сумму платежа: " << endl;
+    cin >> SellPaid;       // вводим оплату
+    cin.ignore(80, '\n');
+    cout << "Введите номер месяца оплаты (1-12): " << endl;
+    cin >> month;
+    cin.ignore(80, '\n');
+    month--;                  // (внутренняя нумерация 0-11)
+    // вставляем доход в запись об оплате
+    ptrSellRecord->insertSell(SoldBook, month, SellPaid);
+
+}
+//---------------------------------------------------------
+
 
 //методы класса userInterface//
 UserInterface::UserInterface()
@@ -233,8 +251,10 @@ void UserInterface::interact()
                 ptrBookInputScreen->setBook();
                 delete ptrBookInputScreen;
                 break;
-            case '2':
-                cout << "В разработке" << endl;
+            case '2': ptrSellInputScreen =
+                        new SellInputScreen(ptrBookList, ptrSellRecord);
+                ptrSellInputScreen->setSell();
+                delete ptrSellInputScreen;
                 break;
             case '3':
                 cout << "В разработке" << endl;
@@ -252,10 +272,10 @@ void UserInterface::interact()
             ch = getaChar();
             switch (ch)
             {
-            case '1':
-                cout << "В разработке" << endl;
-            case '2':
-                cout << "В разработке" << endl;
+            case '1': ptrBookList->display();
+                break;
+            case '2': ptrSellRecord->display();
+                break;
             case '3':
                 cout << "В разработке" << endl;
             case '4':
