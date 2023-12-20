@@ -1,10 +1,12 @@
-#include <iostream>
-
-using namespace std;
+#include "class.h"
 
 int main()
 {
-    cout << "Hello World!" << endl;
+    //Функция setlocale() задаёт локализацию программы.
+    setlocale(LC_ALL, "rus");
+
+    UserInterface theUserInterface;
+
+    theUserInterface.interact();
     return 0;
 }
-
