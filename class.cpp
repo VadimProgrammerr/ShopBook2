@@ -1,6 +1,15 @@
 #include <iostream>
 #include "class.h"
 
+void getaLine(string& inStr) // получение строки текста
+{
+    char temp[21];
+    cin.get(temp, 20, '\n');
+    cin.ignore(20, '\n');     //число пропускаемых символов и символ разделения
+    inStr = temp;
+}
+//---------------------------------------------------------
+
 char getaChar()                     // получение символа
 {
     char ch = cin.get();
@@ -8,6 +17,122 @@ char getaChar()                     // получение символа
     return ch;
 }
 //---------------------------------------------------------
+
+//методы класса Book//
+//в конструкторе задаём Название и Автора
+Book::Book(string n, string Au) : Title(n), Author(Au)
+{
+
+}
+//---------------------------------------------------------
+
+Book::~Book() // деструктор
+{
+
+}
+//---------------------------------------------------------
+
+string Book::getAuthor() //геттер возвращает Название
+{
+    return Author;
+}
+//--------------------------------------------------------
+
+string Book::getTitle() //геттер возвращает Автора
+{
+    return Title;
+}
+//---------------------------------------------------------
+
+//метод класса BookInputScreen//
+void BookInputScreen::setBook() // добавить данные о книге
+{
+    cout << "Введите Название: " << endl;
+    cin >> tTitle;
+    cout << "Введите Автора: " << endl;
+    cin >> tAuthor;
+    cin.ignore(80, '\n');
+    Book* ptrBook = new Book(tTitle, tAuthor);   // создать книгу
+    ptrBookList->insertBook(ptrBook);            // занести в список книг
+
+}
+//---------------------------------------------------------
+
+//методы класса BookList//
+BookList::~BookList() // деструктор
+{
+    while (!setPtrsBook.empty()) // удаление всех книг,
+ {          // удаление указателей из контейнера
+        iter = setPtrsBook.begin();
+        delete *iter;
+        setPtrsBook.erase(iter);
+    }
+}
+//---------------------------------------------------------
+
+
+void BookList::insertBook(Book* ptrT)
+{
+    setPtrsBook.push_back(ptrT); // вставка новой книги
+}
+//---------------------------------------------------------
+
+
+void BookList::display()     // вывод списка книг
+{
+    cout << "\nНазвание\tАвтор\n-------------------\n";
+    if (setPtrsBook.empty()) // если список книг пуст
+  cout << "***Нет авторов***\n" << endl; // выводим запись, что он пуст)
+    else
+    {
+        iter = setPtrsBook.begin();
+        while (iter != setPtrsBook.end())
+        {
+            cout << (*iter)->getTitle() << "    ||     " << (*iter)->getAuthor() << endl;
+            *iter++;
+        }
+    }
+}
+//---------------------------------------------------------
+
+//методы класса SellRow//
+SellRow::SellRow(string an) : tTitle(an) //конструктор
+{
+    //Алгоритм fill() помещает копию значения value (у нас это 0)
+    //в каждый элемент диапазона, ограниченного парой итераторов [first,last).
+    //Т.е. в конструкторе просто инициализируем массив значениями 0.
+    fill(&Sell[0], &Sell[12], 0);
+}
+//---------------------------------------------------------
+
+void SellRow::setSell(int m, float am) // сеттер оплата за месяц m, сумма - am
+{
+    Sell[m] = am;   // привязываем оплату к месяцу
+}
+//---------------------------------------------------------
+
+string SellRow::gettTitle() // геттер запрос названия
+{
+    return tTitle;
+}
+//---------------------------------------------------------
+
+float SellRow::getSellNo(int month) //Геттер запрос дохода за месяц month
+{
+    return Sell[month];
+}
+//---------------------------------------------------------
+
+float SellRow::getSumOfRow() // cумма доходов в строке
+{
+    //По умолчанию алгоритм accumulate() суммирует элементы.
+    //Нужно указать точку старта, конечную точку и значение от которого начинаем прибавлять.
+    //Чаще всего это ноль, но может быть и результат других вычислений.
+    return accumulate(&Sell[0], &Sell[12], 0);
+}
+//---------------------------------------------------------
+
+
 
 //методы класса userInterface//
 UserInterface::UserInterface()
@@ -34,8 +159,10 @@ void UserInterface::interact()
             ch = getaChar();
             switch (ch)
             {
-            case '1':
-                cout << "В разработке" << endl;
+            case '1': ptrBookInputScreen =
+                        new BookInputScreen(ptrBookList);
+                ptrBookInputScreen->setBook();
+                delete ptrBookInputScreen;
                 break;
             case '2':
                 cout << "В разработке" << endl;
