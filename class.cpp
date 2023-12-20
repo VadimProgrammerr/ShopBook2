@@ -44,6 +44,20 @@ string Book::getTitle() //геттер возвращает Автора
 }
 //---------------------------------------------------------
 
+//метод класса BookInputScreen//
+void BookInputScreen::setBook() // добавить данные о книге
+{
+    cout << "Введите Название: " << endl;
+    cin >> tTitle;
+    cout << "Введите Автора: " << endl;
+    cin >> tAuthor;
+    cin.ignore(80, '\n');
+    Book* ptrBook = new Book(tTitle, tAuthor);   // создать книгу
+    ptrBookList->insertBook(ptrBook);            // занести в список книг
+
+}
+//---------------------------------------------------------
+
 
 //методы класса userInterface//
 UserInterface::UserInterface()
