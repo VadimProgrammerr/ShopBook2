@@ -343,13 +343,17 @@ void AnnualReport::display()
 //методы класса userInterface//
 UserInterface::UserInterface()
 {
-
+    ptrBookList = new BookList;
+    ptrSellRecord = new SellRecord;
+    ptrExpenseRecord = new ExpenseRecord;
 }
 //---------------------------------------------------------
 
 UserInterface::~UserInterface()
 {
-
+    delete ptrBookList;
+    delete ptrSellRecord;
+    delete ptrExpenseRecord;
 }
 //---------------------------------------------------------
 
@@ -375,8 +379,10 @@ void UserInterface::interact()
                 ptrSellInputScreen->setSell();
                 delete ptrSellInputScreen;
                 break;
-            case '3':
-                cout << "В разработке" << endl;
+            case '3': ptrExpenseInputScreen =
+                        new ExpenseInputScreen(ptrExpenseRecord);
+                ptrExpenseInputScreen->setExpense();
+                delete ptrExpenseInputScreen;
                 break;
             default: cout << "Неизвестная функция\n";
                 break;
@@ -392,14 +398,14 @@ void UserInterface::interact()
             switch (ch)
             {
             case '1': ptrBookList->display();
-                break;
+                    break;
             case '2': ptrSellRecord->display();
-                break;
-            case '3':
-                cout << "В разработке" << endl;
-            case '4':
-                cout << "В разработке" << endl;
-
+                    break;
+            case '3': ptrExpenseRecord->display();
+                    break;
+            case '4': ptrAnnualReport = new AnnualReport(ptrSellRecord,ptrExpenseRecord);
+                    ptrAnnualReport->display();
+                    delete ptrAnnualReport;
                     break;
             default: cout << "Неизвестная функция вывода\n";
                     break;
@@ -410,4 +416,5 @@ void UserInterface::interact()
         else
             cout << "Неизвестная функция";
     }                         // конец while
-}
+}                             // конец interact()
+
