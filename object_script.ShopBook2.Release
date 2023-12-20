@@ -1,0 +1,14 @@
+INPUT(
+./release\main.o
+./release\globals.o
+./release\book.o
+./release\bookinputscreen.o
+./release\booklist.o
+./release\sellrow.o
+./release\sellrecord.o
+./release\sellinputscreen.o
+./release\expenserecord.o
+./release\expenseinputscreen.o
+./release\annualreport.o
+./release\userinterface.o
+);

@@ -47,9 +47,9 @@ string Book::getTitle() //геттер возвращает Автора
 //метод класса BookInputScreen//
 void BookInputScreen::setBook() // добавить данные о книге
 {
-    cout << "Введите Название: " << endl;
+    cout << "Title: " << endl;
     cin >> tTitle;
-    cout << "Введите Автора: " << endl;
+    cout << "Author: " << endl;
     cin >> tAuthor;
     cin.ignore(80, '\n');
     Book* ptrBook = new Book(tTitle, tAuthor);   // создать книгу
@@ -80,9 +80,9 @@ void BookList::insertBook(Book* ptrT)
 
 void BookList::display()     // вывод списка книг
 {
-    cout << "\nНазвание\tАвтор\n-------------------\n";
+    cout << "\nTitle\tAuthor\n-------------------\n";
     if (setPtrsBook.empty()) // если список книг пуст
-  cout << "***Нет авторов***\n" << endl; // выводим запись, что он пуст)
+  cout << "***List empty***\n" << endl; // выводим запись, что он пуст)
     else
     {
         iter = setPtrsBook.begin();
@@ -164,9 +164,9 @@ void SellRecord::insertSell(string tTitle, int month, float amount) {
 
 void SellRecord::display()  // отобразить все строки с доходами
 {
-    cout << "\nНазвание   Янв  Фев  Мар  Апр  Май  Июн Июл  Авг  Сен  Окт  Ноя  Дек Сумма,руб\n" << endl
+    cout << "\nTitle   Jan  Feb  Mar  Apr  May  Jun  Jul  Agu  Sep  Okt  Nov  Dec (rub)\n" << endl
         << "-------------------------------------------------------------------------------\n" << endl;
-    if (setPtrsSR.empty())  	 	cout << "***Нет доходов!***\n" << endl;
+    if (setPtrsSR.empty())  	 	cout << "***List empty!***\n" << endl;
     else
     {
         iter = setPtrsSR.begin(); //итератор на список с указателями на объекты SellRow
@@ -205,12 +205,12 @@ float SellRecord::getSumOfSells()  // сумма всех платежей
 //методы класса SellInputScreen//
 void SellInputScreen::setSell()
 {
-    cout << "Название: ";
+    cout << "Title: ";
     cin >> SoldBook;
-    cout << "Введите сумму платежа: " << endl;
+    cout << "Number of money: " << endl;
     cin >> SellPaid;       // вводим оплату
     cin.ignore(80, '\n');
-    cout << "Введите номер месяца оплаты (1-12): " << endl;
+    cout << "Enter month (1-12): " << endl;
     cin >> month;
     cin.ignore(80, '\n');
     month--;                  // (внутренняя нумерация 0-11)
@@ -240,10 +240,10 @@ vectPtrsExpenses.push_back(ptrExp);
 
 void ExpenseRecord::display() // распечатываем все расходы
 {
-    cout << "\nДата\tПолучатель\tСумма\tКатегория\n"
+    cout << "\nDate\tPoluchatel\tSumm\tCategory\n"
         << "----------------------------------------\n" << endl;
     if (vectPtrsExpenses.size() == 0) // В контейнере нет расходов
-        cout << "***Расходов нет***\n" << endl;
+        cout << "***List empty***\n" << endl;
     else
     {
         iter = vectPtrsExpenses.begin();
@@ -265,7 +265,7 @@ float ExpenseRecord::displaySummary()
 
     if (vectPtrsExpenses.size() == 0)
     {
-        cout << "\tВсе категории\t0\n";
+        cout << "\tAll category\t0\n";
         return 0;
     }
 
@@ -296,17 +296,17 @@ void ExpenseInputScreen::setExpense()
     string category, payee;
     float amount;
 
-    cout << "Введите месяц (1-12): ";
+    cout << "Enter month (1-12): ";
     cin >> month;
     cin.ignore(80, '\n');
-    cout << "Введите день (1-31): ";
+    cout << "Enter day (1-31): ";
     cin >> day;
     cin.ignore(80, '\n');
-    cout << "Введите категорию расходов: ";
+    cout << "Enter category: ";
     getaLine(category);
-    cout << "Введите получателя: ";
+    cout << "Enter poluchatel: ";
     getaLine(payee);
-    cout << "Введите сумму: ";
+    cout << "Enter summ: ";
     cin >> amount;
     cin.ignore(80, '\n');
     // создаем новый расход
@@ -326,16 +326,16 @@ AnnualReport::AnnualReport(SellRecord* pSR, ExpenseRecord* pER) : ptrRR(pSR), pt
 
 void AnnualReport::display()
  {
-        cout << "Годовой отчет\n--------------\n" << endl;
-        cout << "Доходы\n" << endl;
-        cout << "\tДоход от продаж: ";
+        cout << "Year report\n--------------\n" << endl;
+        cout << "Incomes\n" << endl;
+        cout << "\tIncomes from selling books: ";
         Sells = ptrRR->getSumOfSells();
         cout << Sells << endl;
-        cout << "Расходы\n" << endl;
+        cout << "Outcomes\n" << endl;
         expenses = ptrER->displaySummary();
-        cout << "Расходы всего: ";
+        cout << "Total outcomes: ";
         cout << expenses << endl;  	 	// вычисляем прибыльность
-        cout << "\nБаланс: " << (Sells - expenses) << endl;
+        cout << "\nBalance: " << (Sells - expenses) << endl;
 }
 //---------------------------------------------------------
 
@@ -361,11 +361,11 @@ void UserInterface::interact()
 {
     while (true)
     {
-        cout << "1.Для добавления данных\n" <<  "2.Для вывода отчета\n"  <<  "3.Для выхода\n";
+        cout << "1.Enter data\n" <<  "2.Report out\n"  <<  "3.Exit\n";
         ch = getaChar();
         if (ch == '1') // ввод данных
         {
-            cout << "1.Нажмите для добавления Книги\n"  << "2.Для записи оплаты\n" <<  "3.Для записи расходов\n";
+            cout << "1.Add book\n"  << "2.Add incomes\n" <<  "3.Add outcomes\n";
             ch = getaChar();
             switch (ch)
             {
@@ -384,16 +384,16 @@ void UserInterface::interact()
                 ptrExpenseInputScreen->setExpense();
                 delete ptrExpenseInputScreen;
                 break;
-            default: cout << "Неизвестная функция\n";
+            default: cout << "Error\n";
                 break;
             }                   // конец секции switch
         }                       // конец условия if
         else if (ch == '2')     // вывод данных
         {
-            cout << "1.Нажмите для вывода списка книг\n"
-                    <<  "2.Для вывода статистики продаж\n"
-                    <<  "3.Для вывода расходов\n"
-                    <<  "4.Для вывода годового отчета\n";
+            cout << "1.Show books\n"
+                    <<  "2.Show incomes\n"
+                    <<  "3.Show outcomes\n"
+                    <<  "4.Show year record\n";
             ch = getaChar();
             switch (ch)
             {
@@ -407,14 +407,14 @@ void UserInterface::interact()
                     ptrAnnualReport->display();
                     delete ptrAnnualReport;
                     break;
-            default: cout << "Неизвестная функция вывода\n";
+            default: cout << "Error\n";
                     break;
             }                 // конец switch
         }                     // конец elseif
         else if (ch == '3')
             return;           // выход
         else
-            cout << "Неизвестная функция";
+            cout << "Error";
     }                         // конец while
 }                             // конец interact()
 

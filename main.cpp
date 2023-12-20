@@ -1,4 +1,5 @@
-#include "class.h"
+#include "userinterface.h"
+#include <clocale>
 
 int main()
 {
